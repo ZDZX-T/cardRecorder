@@ -39,6 +39,7 @@ whiteConfidence = 1  # 检测白块的置信度
 waitTime = 1  # 等待状态稳定延时
 myFilter = 40  # 我的牌检测结果过滤参数
 otherFilter = 25  # 别人的牌检测结果过滤参数
+sleepTime = 0.1  # 循环中睡眠时间
 
 # 坐标
 myPos = (0, 0, 0, 0)  # 我的截图区域
@@ -56,7 +57,7 @@ def setAlpha():
 
 
 def initial():
-    global myPos, lPos, rPos, myConfidence, otherConfidence, whiteConfidence, waitTime, myFilter, otherFilter
+    global myPos, lPos, rPos, myConfidence, otherConfidence, whiteConfidence, waitTime, myFilter, otherFilter, sleepTime
     f = open('settings.txt', 'r', encoding='utf-8')
     alphaInEntry.set(f.readline().split(' ')[0])  # 读取透明度
     my = f.readline().split(' ')
@@ -71,6 +72,7 @@ def initial():
     waitTime = float(f.readline().split(' ')[0])
     myFilter = int(f.readline().split(' ')[0])
     otherFilter = int(f.readline().split(' ')[0])
+    sleepTime = float(f.readline().split(' ')[0])
     f.close()
 
 
@@ -278,6 +280,7 @@ def startRecord():  # 开始记牌
             lmod = 1
         if lmod == 1 and haveWhite(lPos) == 0 and (not shouldExit):  # 左边的人刚刚出牌了，现在牌没了
             lmod = 0
+        time.sleep(sleepTime)
     canRecord.release()
 
 
